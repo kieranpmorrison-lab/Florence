@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tuscany · La Selva Chianti · Sept 21–25</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F0E8;
+    --dark: #1A1A18;
+    --olive: #6B7C3E;
+    --gold: #B8973A;
+    --terracotta: #C4612A;
+    --muted: #7A7468;
+    --light-border: #DDD8CC;
+    --wine: #722F37;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--cream); color: var(--dark); font-family: 'Jost', sans-serif; font-weight: 300; line-height: 1.7; }
+  header { background: var(--olive); color: var(--cream); padding: 60px 40px 50px; position: relative; overflow: hidden; }
+  header::before { content: 'TOSCANA'; position: absolute; right: -20px; top: 50%; transform: translateY(-50%); font-family: 'Playfair Display', serif; font-size: 130px; font-weight: 700; color: rgba(255,255,255,0.05); letter-spacing: 6px; white-space: nowrap; }
+  .flag-stripe { display: flex; gap: 6px; margin-bottom: 20px; }
+  .flag-stripe span { height: 4px; border-radius: 2px; }
+  .flag-stripe .g { background: #009246; width: 40px; }
+  .flag-stripe .w { background: white; width: 40px; }
+  .flag-stripe .r { background: #CE2B37; width: 40px; }
+  header h1 { font-family: 'Playfair Display', serif; font-size: clamp(30px, 5vw, 54px); font-weight: 400; letter-spacing: 1px; line-height: 1.1; }
+  header h1 em { font-style: italic; color: #D4B96A; }
+  .header-meta { margin-top: 16px; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+  .overview-bar { background: var(--wine); color: white; display: flex; flex-wrap: wrap; }
+  .overview-item { padding: 18px 28px; border-right: 1px solid rgba(255,255,255,0.2); flex: 1; min-width: 120px; }
+  .overview-item .label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.7; margin-bottom: 4px; }
+  .overview-item .value { font-family: 'Playfair Display', serif; font-size: 15px; }
+  main { max-width: 880px; margin: 0 auto; padding: 20px 24px 60px; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--terracotta); margin: 48px 0 24px; display: flex; align-items: center; gap: 12px; }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--light-border); }
+  .villa-card { background: white; border: 1px solid var(--light-border); border-top: 3px solid var(--gold); padding: 24px; margin-bottom: 16px; }
+  .villa-card h3 { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 8px; }
+  .villa-card p { font-size: 14px; color: var(--muted); line-height: 1.8; }
+  .day { display: grid; grid-template-columns: 80px 1fr; margin-bottom: 2px; border: 1px solid var(--light-border); background: white; }
+  .day + .day { border-top: none; }
+  .day-label { background: var(--dark); color: var(--cream); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 10px; text-align: center; }
+  .day-label .dow { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.5; margin-bottom: 4px; }
+  .day-label .date-num { font-family: 'Playfair Display', serif; font-size: 26px; line-height: 1; }
+  .day-label .month { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; opacity: 0.5; margin-top: 2px; }
+  .day-content { padding: 18px 22px; border-left: 3px solid transparent; }
+  .day.arrival .day-content { border-left-color: var(--gold); }
+  .day.villa .day-content { border-left-color: var(--olive); }
+  .day.out .day-content { border-left-color: var(--terracotta); }
+  .day.florence .day-content { border-left-color: var(--wine); }
+  .day.tbd .day-content { border-left-color: #8B6BAE; }
+  .day-title { font-family: 'Playfair Display', serif; font-size: 17px; margin-bottom: 6px; }
+  .location-tag { font-size: 11px; font-family: 'Jost', sans-serif; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-weight: 400; margin-left: 8px; }
+  .day-body { font-size: 14px; color: #444; line-height: 1.8; }
+  .day-body strong { color: var(--dark); font-weight: 500; }
+  .tag { display: inline-block; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-right: 6px; margin-bottom: 8px; }
+  .tag.food { background: #FEF3E2; color: #B8630A; }
+  .tag.sight { background: #E8F0FE; color: #2A5DB0; }
+  .tag.wine { background: #F5E6E8; color: #722F37; }
+  .tag.villa { background: #EFF3E6; color: #4A6029; }
+  .tag.drive { background: #F3E5F5; color: #6A1B9A; }
+  .tag.relax { background: #E0F4F1; color: #00695C; }
+  .tag.tbd { background: #F0EBF8; color: #6B3FA0; }
+  .relax-block { margin-top: 10px; padding: 12px 16px; background: #EAF4F1; border-left: 3px solid #4A9B8E; font-size: 13px; }
+  .relax-block .relax-title { font-weight: 500; color: #00564B; font-size: 13px; }
+  .relax-block .relax-desc { color: #2E6B61; font-size: 12px; margin-top: 2px; }
+  .or-block { margin-top: 10px; padding: 12px 16px; background: #F8F4FC; border-left: 3px solid #8B6BAE; font-size: 13px; }
+  .or-block .or-title { font-weight: 500; color: #5B3A8A; font-size: 13px; margin-bottom: 6px; }
+  .or-option { padding: 8px 12px; background: white; border: 1px solid #D8CCE8; margin-bottom: 6px; font-size: 13px; }
+  .or-option:last-child { margin-bottom: 0; }
+  .or-option .opt-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #8B6BAE; font-weight: 500; margin-bottom: 3px; }
+  .or-option .opt-name { font-weight: 500; color: var(--dark); font-size: 13px; }
+  .or-option .opt-desc { color: var(--muted); font-size: 12px; margin-top: 2px; }
+  .food-spot { margin-top: 8px; padding: 10px 14px; background: #FAFAF7; border-left: 2px solid var(--gold); font-size: 13px; }
+  .food-spot.bfast { border-left-color: #C8941A; background: #FFFBF0; }
+  .food-spot.villa-extra { border-left-color: var(--olive); background: #F2F5ED; }
+  .food-spot.booked { border-left-color: #2E7D32; background: #F1F8F1; }
+  .spot-name { font-weight: 500; color: var(--dark); }
+  .spot-desc { color: var(--muted); font-size: 12px; margin-top: 2px; }
+  .spot-rating { font-size: 11px; color: var(--olive); font-weight: 500; margin-top: 3px; }
+  .spot-booked { font-size: 11px; color: #2E7D32; font-weight: 500; margin-top: 3px; }
+  .tips-box { background: var(--dark); color: var(--cream); padding: 28px 32px; margin-top: 40px; }
+  .tips-box h3 { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 16px; color: #D4B96A; }
+  .tips-box ul { list-style: none; font-size: 14px; line-height: 2.1; }
+  .tips-box ul li::before { content: '→ '; color: #D4B96A; }
+  .note-box { background: #EFF3E6; border-left: 3px solid var(--olive); padding: 14px 18px; font-size: 13px; margin-top: 16px; color: #3A4F1A; }
+  .plain-box { background: white; border: 1px solid var(--light-border); padding: 20px 24px; font-size: 13px; line-height: 2.2; }
+  footer { text-align: center; padding: 30px; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); border-top: 1px solid var(--light-border); }
+  @media (max-width: 600px) {
+    header { padding: 40px 20px; }
+    main { padding: 16px 16px 48px; }
+    .day { grid-template-columns: 60px 1fr; }
+    .day-label .date-num { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="flag-stripe"><span class="g"></span><span class="w"></span><span class="r"></span></div>
+  <h1>Tuscany <em>at La Selva</em></h1>
+  <div class="header-meta">September 21–25 &nbsp;·&nbsp; Chianti Hills &nbsp;·&nbsp; 6 Friends &nbsp;·&nbsp; 4 Days</div>
+</header>
+
+<div class="overview-bar">
+  <div class="overview-item"><div class="label">Villa</div><div class="value">La Selva Chianti</div></div>
+  <div class="overview-item"><div class="label">Check In</div><div class="value">Mon 5–7pm</div></div>
+  <div class="overview-item"><div class="label">Check Out</div><div class="value">Fri before 9am</div></div>
+  <div class="overview-item"><div class="label">Guests</div><div class="value">6 Friends</div></div>
+  <div class="overview-item"><div class="label">Next Stop</div><div class="value">Innsbruck</div></div>
+</div>
+
+<main>
+
+<div class="section-title">The Villa</div>
+<div class="villa-card">
+  <h3>La Selva Giardino del Belvedere</h3>
+  <p>A private stone farmhouse on the Chianti hills surrounded by centuries-old oaks, olive groves and meadows. 50km from Florence (1 hr), 45km from Siena, 40km from Arezzo. Private salt-water pool, 2 wood-fired pizza ovens, draft beer + Prosecco fridge by the pool, barbecue, 2 fully equipped kitchens, 2 washing machines, Wi-Fi, satellite TV, piano, wood fireplaces. Linens, pool towels, weekly cleaning, final clean and tourist tax all included. Nearest village Montegonzi (1.5km). Grocery stop recommended in Montevarchi (6km) on arrival — COOP supermarket open Mon–Sat 8am–8:30pm and Il Mercatale organic farmer's market open Mon–Sat 9–1pm & 4–8:30pm.</p>
+</div>
+
+<div class="note-box">🌿 <strong>The rhythm:</strong> Every day has a slow moment — either a relaxed morning or a villa afternoon. You're never racing out the door. Wednesday is deliberately left open so the group decides on the day.</div>
+
+<div class="section-title">Confirmed Bookings</div>
+<div class="plain-box">
+  ✅ <strong>Wednesday Sept 23</strong> — Organic Biodynamic Winery Visit + Dinner (through Francesco) · 5:45pm<br>
+  ✅ <strong>Thursday Sept 24</strong> — Tuscany Truffle Hunt (Viator) · 9:30am pickup · 5 hrs · 4-course truffle lunch included<br>
+  📞 <strong>To book:</strong> Contact Francesco for Officina della Bistecca, Trattoria Sostanza, and Osteria di Montegonzi
+</div>
+
+<div class="section-title">Day-by-Day Itinerary</div>
+
+<!-- DAY 1 — MON SEPT 21 -->
+<div class="day arrival">
+  <div class="day-label"><div class="dow">Mon</div><div class="date-num">21</div><div class="month">Sept</div></div>
+  <div class="day-content">
+    <div class="day-title">Arrival at La Selva <span class="location-tag">Check in 5–7pm</span></div>
+    <div class="day-body">
+      <span class="tag villa">Check In 5–7pm</span><span class="tag food">Grocery Stop</span><span class="tag relax">Settle In</span>
+      <p><strong>Stop in Montevarchi (6km) before checking in.</strong> COOP supermarket open until 8:30pm. If you arrive before 8:30pm, Il Mercatale farmer's market has far better local produce — wine, cheese, charcuterie, pasta, olive oil, bread, fresh produce. Stock the villa for the week.</p><br>
+      <p>Check in between 5–7pm. Explore the property, get in the pool, watch your first Tuscan sunset. Tonight is gentle — no agenda, no driving after a travel day.</p>
+    </div>
+    <div class="relax-block">
+      <div class="relax-title">Arrival evening — no agenda</div>
+      <div class="relax-desc">Pour the wine, get in the pool, watch the hills go golden. The whole point of tonight is simply arriving together.</div>
+    </div>
+    <div class="food-spot bfast">
+      <div class="spot-name">🛒 Pre-arrival: Grocery stop in Montevarchi</div>
+      <div class="spot-desc">COOP supermarket (open to 8:30pm) or Il Mercatale farmer's market (open 4–8:30pm Mon). Stock the villa for the week.</div>
+    </div>
+    <div class="or-block">
+      <div class="or-title">🍽️ Dinner — two options:</div>
+      <div class="or-option">
+        <div class="opt-label">Option A</div>
+        <div class="opt-name">Villa dinner — cook at home</div>
+        <div class="opt-desc">Open the market finds, put together a spread on the terrace, crack the estate wine. Easy, relaxed, no driving after travel.</div>
+      </div>
+      <div class="or-option">
+        <div class="opt-label">Option B · 5 min drive</div>
+        <div class="opt-name">Osteria di Montegonzi</div>
+        <div class="opt-desc">The village restaurant literally on the doorstep — local Tuscan cooking, lovely setting. Confirm with Francesco it's open before counting on it.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DAY 2 — TUE SEPT 22 -->
+<div class="day florence">
+  <div class="day-label"><div class="dow">Tue</div><div class="date-num">22</div><div class="month">Sept</div></div>
+  <div class="day-content">
+    <div class="day-title">Florence Day <span class="location-tag">Slow Start · ~50km · 1 hr</span></div>
+    <div class="day-body">
+      <span class="tag relax">Slow Morning</span><span class="tag sight">Florence</span><span class="tag food">Uffizi or Accademia</span>
+      <p><strong>Slow morning at the villa first.</strong> Coffee on the terrace, a swim, no rush. Leave whenever you feel like it — aim for Florence by late morning.</p><br>
+      <p>Park at <strong>Piazzale Michelangelo</strong> and walk down into the city. Below is a suggested itinerary for the day — feel free to do your own thing, this is just a starting point!</p><br>
+      <p>Choose <strong>ONE museum</strong> — Uffizi (Botticelli, da Vinci, Raphael) or Accademia (Michelangelo's David). Pre-book tickets online — September queues without tickets are brutal. Both closed Sundays; Tuesday is perfect.</p><br>
+      <p>After the museum: cross the <strong>Ponte Vecchio</strong> to the <strong>Oltrarno</strong> — the local south bank. Wander <strong>Piazza Santo Spirito</strong>, explore artisan workshops and leather shops on the backstreets. Gelato at <strong>Gelateria dei Neri</strong>. Aperitivo at <strong>Il Santino</strong> wine bar before dinner.</p><br>
+
+    </div>
+    <div class="relax-block">
+      <div class="relax-title">Slow morning at the villa before leaving</div>
+      <div class="relax-desc">Don't set an alarm. Coffee, terrace, pool. Leave whenever the group is ready — late morning is fine.</div>
+    </div>
+    <div class="food-spot bfast">
+      <div class="spot-name">☕ Breakfast: Villa terrace</div>
+      <div class="spot-desc">Long lazy breakfast from market supplies before heading out</div>
+    </div>
+    <div class="food-spot">
+      <div class="spot-name">🍦 Gelato: Gelateria dei Neri, Florence</div>
+      <div class="spot-desc">One of Florence's most beloved — seasonal flavours, off the tourist drag. The pistachio is extraordinary.</div>
+    </div>
+    <div class="food-spot">
+      <div class="spot-name">🍷 Aperitivo: Il Santino wine bar, Oltrarno</div>
+      <div class="spot-desc">Sister bar to Il Santo Bevitore — natural wines, small plates, candlelit. The most local neighbourhood in Florence. Perfect pre-dinner stop.</div>
+      <div class="spot-rating">★ 4.5 Google</div>
+    </div>
+    <div class="or-block">
+      <div class="or-title">🍽️ Dinner — two options:</div>
+      <div class="or-option">
+        <div class="opt-label">Option A · Panzano · 45 min from Florence</div>
+        <div class="opt-name">Officina della Bistecca — Aperitif 7pm, seated 7:30pm</div>
+        <div class="opt-desc">The legendary Dario Cecchini dinner experience — carnivorous feast of grilled beef cuts served communally until you're full. €50pp, wine included. Panzano is perfectly on the drive home from Florence.</div>
+        <div class="spot-rating">★ Michelin Recommended</div>
+      </div>
+      <div class="or-option">
+        <div class="opt-label">Option B · Florence city centre</div>
+        <div class="opt-name">Trattoria Sostanza — 7:30pm sitting</div>
+        <div class="opt-desc">Florence institution since 1869 — legendary butter chicken, artichoke tortino, Florentine steak over coals. Marble communal tables, convivial, ~€40pp. Stay in the city for dinner and drive back after. Cash only.</div>
+        <div class="spot-rating">★ 4.8 Restaurant Guru · ★ 4.4 Google</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DAY 3 — WED SEPT 23 -->
+<div class="day tbd">
+  <div class="day-label"><div class="dow">Wed</div><div class="date-num">23</div><div class="month">Sept</div></div>
+  <div class="day-content">
+    <div class="day-title">TBD Day <span class="location-tag">Group decides · Winery Dinner 5:45pm</span></div>
+    <div class="day-body">
+      <span class="tag tbd">Group Choice</span><span class="tag wine">Winery Dinner 5:45pm · Confirmed</span>
+      <p>The day is yours to decide. Two great options below. Either way, you have the <strong>organic biodynamic winery dinner at 5:45pm</strong> (through Francesco) — a full multi-course Tuscan dinner paired with wines from Roberto's estate at a winery with 40 rare grape varieties. Plan to be back from wherever you are by 5pm.</p>
+    </div>
+    <div class="or-block">
+      <div class="or-title">🗺️ Choose your Wednesday:</div>
+      <div class="or-option">
+        <div class="opt-label">Option A · Chianti Scenic Drive</div>
+        <div class="opt-name">Chiantigiana SR222 → Greve → Radda in Chianti</div>
+        <div class="opt-desc">Drive the most beautiful road in Tuscany through vineyard-draped hills and cypress-lined ridges. Stop in Greve in Chianti — arcaded triangular piazza, browse the market. Visit Enoteca del Gallo Nero for wine tasting (the best wine shop in Chianti Classico — taste your way through local producers and buy bottles to take home or to Austria). Continue to Radda in Chianti for a late Aperol Spritz on the terrace before heading back for the winery dinner. Relaxed, scenic, very Chianti.</div>
+      </div>
+      <div class="or-option">
+        <div class="opt-label">Option B · Medieval City</div>
+        <div class="opt-name">Siena — 45km, 50 min from villa</div>
+        <div class="opt-desc">One of Italy's most beautiful medieval cities, far less crowded than Florence. The Piazza del Campo — the shell-shaped main square — is one of the world's great public spaces. The striped black and white marble Duomo is extraordinary. Walk the medieval streets, stop for an Aperol Spritz on the Campo. Compact and walkable — 3 hours is plenty. Back by 5pm for the winery dinner.</div>
+      </div>
+    </div>
+    <div class="food-spot bfast">
+      <div class="spot-name">☕ Breakfast: Villa</div>
+      <div class="spot-desc">Easy morning from market supplies before heading out</div>
+    </div>
+    <div class="food-spot villa-extra booked">
+      <div class="spot-name">🍷 Dinner: Organic Biodynamic Winery Visit + Dinner (Booked ✓)</div>
+      <div class="spot-desc">Through Francesco · 5:45pm · Full multi-course traditional Tuscan dinner paired with wines from Roberto's biodynamic estate — 40 rare Tuscan grape varieties, cooked by Maria Grazia. One of the great off-the-beaten-path Chianti experiences. Transport from villa included.</div>
+      <div class="spot-booked">✅ Confirmed through Francesco · 5:45pm</div>
+    </div>
+  </div>
+</div>
+
+<!-- DAY 4 — THU SEPT 24 -->
+<div class="day villa">
+  <div class="day-label"><div class="dow">Thu</div><div class="date-num">24</div><div class="month">Sept</div></div>
+  <div class="day-content">
+    <div class="day-title">Truffle Hunt + Villa Dinner <span class="location-tag">Last Full Day</span></div>
+    <div class="day-body">
+      <span class="tag food">Truffle Hunt 9:30am</span><span class="tag relax">Villa Afternoon</span><span class="tag villa">Villa Dinner</span>
+      <p><strong>Morning: Tuscany Truffle Hunt (Viator, booked ✓).</strong> 9:30am start. Expert guide and trained dog, 5 hours in the Chianti hills, followed by a 4-course truffle feast with local wines included. Back at the villa ~2:30pm. Reviewers call it "the highlight of our trip." September = white truffle season — you couldn't time it better.</p><br>
+      <p><strong>Pickup TBD:</strong> still confirming whether the operator can collect from the villa directly or if we'll need a meeting point in Florence. Will update the group once confirmed.</p><br>
+      <p>Back by 2:30pm — last afternoon at the villa. Pool, pack, soak it all in. Dinner at the villa tonight.</p><br>
+      <p>Pack tonight. Leave by 8–9am tomorrow.</p>
+    </div>
+    <div class="food-spot villa-extra booked">
+      <div class="spot-name">🍄 Morning: Tuscany Truffle Hunt + 4-Course Lunch (Booked ✓)</div>
+      <div class="spot-desc">Viator · 9:30am start · 5 hrs · Expert guide + trained dog · 4-course truffle feast with local wines included. September = white truffle season. ★ 5.0 Viator, 100% recommend.</div>
+      <div class="spot-booked">✅ Booked via Viator · Pickup logistics TBD — confirming villa vs Florence meeting point</div>
+    </div>
+    <div class="relax-block">
+      <div class="relax-title">Afternoon: back at the villa ~2:30pm</div>
+      <div class="relax-desc">Last Tuscan afternoon — pool, pack, enjoy the view one more time.</div>
+    </div>
+    <div class="food-spot villa-extra">
+      <div class="spot-name">🍽️ Dinner: Villa dinner at home</div>
+      <div class="spot-desc">After a big truffle lunch, a relaxed villa dinner is perfect — cook something simple from market supplies, open a bottle from the estate, enjoy your last Chianti evening on the terrace.</div>
+    </div>
+  </div>
+</div>
+
+<!-- DAY 5 — FRI SEPT 25 -->
+<div class="day arrival">
+  <div class="day-label"><div class="dow">Fri</div><div class="date-num">25</div><div class="month">Sept</div></div>
+  <div class="day-content">
+    <div class="day-title">Departure → Innsbruck <span class="location-tag">Leave by 8–9am · Check out before 9am</span></div>
+    <div class="day-body">
+      <span class="tag drive">~4.5 hrs via Brenner Pass</span>
+      <p><strong>Check out before 9am.</strong> Let Francesco know your departure time the evening before. Pack Thursday night. Leave by 8–9am to cross the Brenner Pass and reach Innsbruck by early afternoon for the Nordkette cable car. Coffee stop in Sterzing just over the border into Austria. Bring a bottle of Chianti north.</p>
+    </div>
+  </div>
+</div>
+
+<div class="tips-box">
+  <h3>Reservations & Key Notes</h3>
+  <ul>
+    <li>Viator truffle hunt — pickup TBD, confirming whether villa pickup or Florence meeting point</li>
+    <li>Officina della Bistecca + Trattoria Sostanza — book through Francesco</li>
+    <li>Trattoria Sostanza — cash only, Mon–Fri lunch & dinner</li>
+    <li>Osteria di Montegonzi — confirm with Francesco it's open in September</li>
+    <li>Pre-book Uffizi OR Accademia tickets online — September queues are brutal without them</li>
+    <li>Pick ONE Florence museum — don't try both in a day</li>
+    <li>COOP Montevarchi: Mon–Sat 8am–8:30pm · Il Mercatale: Mon–Sat 9–1pm & 4–8:30pm</li>
+    <li>Winery dinner Wednesday — be back from your day trip by 5pm</li>
+    <li>Thursday truffle lunch is included in the tour — plan for a light villa dinner that evening</li>
+    <li>Tell Francesco your Friday departure time Thursday evening — he needs to know</li>
+    <li>The SR222 Chiantigiana is always the most scenic route — take it over the motorway</li>
+    <li>September = harvest season. Pull over if you see grape picking.</li>
+    <li>Pack Thursday night — check out before 9am Friday</li>
+    <li>The Mall luxury outlet 28km · Prada outlet 10km — if anyone wants a shopping detour</li>
+    <li>Bring Euro cash — Trattoria Sostanza cash only, €500 drinks deposit at villa check-in</li>
+  </ul>
+</div>
+
+<div class="section-title">Food at a Glance</div>
+<div class="plain-box">
+  <strong>Mon Sept 21</strong> — Groceries: Montevarchi · Dinner: Villa feast OR Osteria di Montegonzi<br>
+  <strong>Tue Sept 22</strong> — Breakfast: Villa slow · Florence day · Gelato: Gelateria dei Neri · Aperitivo: Il Santino · Dinner: Officina della Bistecca (7pm) OR Trattoria Sostanza (7:30pm)<br>
+  <strong>Wed Sept 23</strong> — Breakfast: Villa · Day: Chianti Drive (Greve + Radda) OR Siena · Dinner: Organic Winery ✅ 5:45pm<br>
+  <strong>Thu Sept 24</strong> — Truffle Hunt + 4-course lunch ✅ 9:30am · Afternoon: Villa · Dinner: Villa (cook at home)<br>
+  <strong>Fri Sept 25</strong> — 🚗 Depart by 8–9am → Innsbruck via Brenner Pass
+</div>
+
+</main>
+<footer>Tuscany · La Selva Chianti · September 21–25 · 6 Friends · Final Version · Part 1 of 2</footer>
+</body>
+</html>
