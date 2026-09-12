@@ -86,7 +86,39 @@
   .tips-box ul li::before { content: '→ '; color: #D4B96A; }
   .note-box { background: #EFF3E6; border-left: 3px solid var(--olive); padding: 14px 18px; font-size: 13px; margin-top: 16px; color: #3A4F1A; }
   .plain-box { background: white; border: 1px solid var(--light-border); padding: 20px 24px; font-size: 13px; line-height: 2.2; }
-  footer { text-align: center; padding: 30px; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); border-top: 1px solid var(--light-border); }
+  .tabs { display: flex; gap: 0; border-bottom: 2px solid var(--light-border); margin-bottom: 0; background: white; position: sticky; top: 0; z-index: 100; }
+  .tab-btn { padding: 14px 24px; font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; font-weight: 400; background: none; border: none; cursor: pointer; color: var(--muted); border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.2s; }
+  .tab-btn:hover { color: var(--dark); }
+  .tab-btn.active { color: var(--terracotta); border-bottom-color: var(--terracotta); font-weight: 500; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .info-card { background: white; border: 1px solid var(--light-border); padding: 20px; }
+  .info-card h4 { font-family: 'Playfair Display', serif; font-size: 15px; margin-bottom: 10px; color: var(--dark); }
+  .info-card p, .info-card li { font-size: 13px; color: var(--muted); line-height: 1.9; }
+  .info-card ul { list-style: none; }
+  .info-card ul li::before { content: '· '; color: var(--gold); }
+  .info-card a { color: var(--terracotta); text-decoration: none; font-size: 12px; }
+  .info-card a:hover { text-decoration: underline; }
+  .cash-box { background: #FDF8F0; border: 1px solid #E8D9B0; border-top: 3px solid var(--gold); padding: 20px 24px; margin-bottom: 16px; }
+  .cash-box h4 { font-family: 'Playfair Display', serif; font-size: 16px; margin-bottom: 12px; color: var(--terracotta); }
+  .cash-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--light-border); font-size: 14px; }
+  .cash-row:last-child { border-bottom: none; font-weight: 500; color: var(--dark); }
+  .cash-row .label { color: var(--muted); }
+  .cash-row .amount { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--dark); }
+  .cash-total { background: var(--dark); color: var(--cream); padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+  .cash-total .label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.7; }
+  .cash-total .amount { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--gold); }
+  .contact-block { background: white; border: 1px solid var(--light-border); padding: 16px 20px; margin-bottom: 10px; display: flex; align-items: flex-start; gap: 16px; }
+  .contact-block .contact-name { font-weight: 500; font-size: 14px; color: var(--dark); margin-bottom: 2px; }
+  .contact-block .contact-detail { font-size: 12px; color: var(--muted); }
+  .wifi-box { background: var(--dark); color: var(--cream); padding: 20px 24px; margin-bottom: 24px; display: flex; gap: 40px; flex-wrap: wrap; }
+  .wifi-box .wifi-item .wifi-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.5; margin-bottom: 4px; }
+  .wifi-box .wifi-item .wifi-value { font-family: 'Playfair Display', serif; font-size: 16px; }
+  .drink-table { width: 100%; border-collapse: collapse; font-size: 13px; background: white; }
+  .drink-table th { background: var(--dark); color: var(--cream); padding: 10px 14px; text-align: left; font-weight: 400; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
+  .drink-table td { padding: 10px 14px; border-bottom: 1px solid var(--light-border); color: var(--muted); }
+  .drink-table td:last-child { font-weight: 500; color: var(--dark); text-align: right; }
   @media (max-width: 600px) {
     header { padding: 40px 20px; }
     main { padding: 16px 16px 48px; }
@@ -111,6 +143,12 @@
   <div class="overview-item"><div class="label">Next Stop</div><div class="value">Innsbruck</div></div>
 </div>
 
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('itinerary')">Itinerary</button>
+  <button class="tab-btn" onclick="showTab('villa')">Villa Info</button>
+</div>
+
+<div id="itinerary" class="tab-content active">
 <main>
 
 <div class="section-title">The Villa</div>
@@ -293,6 +331,170 @@
 </div>
 
 </main>
+</div>
+
+<!-- VILLA INFO TAB -->
+<div id="villa" class="tab-content">
+<main>
+
+<div class="section-title">Cash Needed at Check-In</div>
+<div class="cash-box">
+  <h4>Per Couple — Bring in Euro Cash</h4>
+  <div class="cash-row">
+    <span class="label">Security deposit (refunded at checkout)</span>
+    <span class="amount">€250.00</span>
+  </div>
+  <div class="cash-row">
+    <span class="label">Drinks share (wine, prosecco, beer consumed during stay)</span>
+    <span class="amount">€245.50</span>
+  </div>
+  <div class="cash-total">
+    <span class="label">Total per couple</span>
+    <span class="amount">€495.50</span>
+  </div>
+</div>
+<div class="note-box">💡 The €500 security deposit is split between the 3 couples — your share is €250. The drinks budget covers your portion of the villa's wine, prosecco, and beer stocked on-site. Any unused portion of the deposit is returned at checkout. If drinks exceed the deposit total, the difference is settled in cash.</div>
+
+<div class="section-title">Drinks on Site</div>
+<table class="drink-table">
+  <tr><th>Item</th><th>Details</th><th>Price (+10% VAT)</th></tr>
+  <tr><td>Tuscan Red La Selva</td><td>750ml bottle</td><td>€8.50</td></tr>
+  <tr><td>Tuscan White La Selva</td><td>750ml bottle</td><td>€8.50</td></tr>
+  <tr><td>Prosecco</td><td>750ml bottle</td><td>€10.00</td></tr>
+  <tr><td>Draft Moretti Beer</td><td>30L keg incl. equipment</td><td>€200.00</td></tr>
+</table>
+<p style="font-size:12px; color:var(--muted); margin-top:8px;">Francesco will inventory drinks at check-in. You settle consumption at checkout — can use the security deposit toward this.</p>
+
+<div class="section-title">Wi-Fi</div>
+<div class="wifi-box">
+  <div class="wifi-item">
+    <div class="wifi-label">Network</div>
+    <div class="wifi-value">laselvatuscanvilla</div>
+  </div>
+  <div class="wifi-item">
+    <div class="wifi-label">Password</div>
+    <div class="wifi-value">laselvagdb</div>
+  </div>
+</div>
+
+<div class="section-title">Contacts</div>
+<div class="contact-block">
+  <div>
+    <div class="contact-name">Francesco — Host</div>
+    <div class="contact-detail">+39 335 732 4554 · WhatsApp & iMessage</div>
+    <div class="contact-detail">Contact via WhatsApp starting 2 days before check-in. For earlier questions, reply to his email.</div>
+  </div>
+</div>
+<div class="contact-block">
+  <div>
+    <div class="contact-name">Andrea — Francesco's brother (on-site daily)</div>
+    <div class="contact-detail">+39 329 070 6875 · WhatsApp</div>
+    <div class="contact-detail">Oversees olive oil production, garden, and pool maintenance. English speaker, on the estate almost every day.</div>
+  </div>
+</div>
+
+<div class="section-title">Check-In & Check-Out</div>
+<div class="info-grid">
+  <div class="info-card">
+    <h4>🏡 Check-In</h4>
+    <ul>
+      <li>Monday Sept 21, between 5:00–7:00pm</li>
+      <li>Villa not accessible before 5pm</li>
+      <li>Traveling during daylight strongly recommended — no streetlights or signs on the final road</li>
+      <li>Google Maps loses accuracy in the last 5 minutes — use the driving directions PDF and video below</li>
+    </ul>
+  </div>
+  <div class="info-card">
+    <h4>🧳 Check-Out</h4>
+    <ul>
+      <li>Friday Sept 25, before 9:00am</li>
+      <li>Let Francesco know your expected departure time the evening before</li>
+      <li>Settle drinks consumption at checkout (can use security deposit)</li>
+      <li>Security deposit returned in full if no damages</li>
+    </ul>
+  </div>
+</div>
+
+<div class="section-title">Driving Directions</div>
+<div class="info-card" style="margin-bottom:16px;">
+  <h4>🗺️ Getting to the Villa</h4>
+  <ul>
+    <li>The final 5 minutes of the drive are tricky — Google Maps loses signal</li>
+    <li><a href="http://www.chianti-farm.com/laselva_directions.pdf" target="_blank">→ Full PDF driving directions</a></li>
+    <li><a href="https://goo.gl/maps/AdYs7ejt9RA2" target="_blank">→ Drive to this Google Maps point</a></li>
+    <li><a href="https://www.youtube.com/watch?v=AEk99zdehqA&feature=youtu.be&t=303" target="_blank">→ YouTube video guide for last few turns</a> (filmed from A1 Valdarno exit)</li>
+  </ul>
+</div>
+
+<div class="section-title">Grocery Shopping</div>
+<div class="info-grid">
+  <div class="info-card">
+    <h4>🛒 COOP-FI Supermarket</h4>
+    <p>Large supermarket in Montevarchi · Mon–Sat 8am–8:30pm</p><br>
+    <a href="https://goo.gl/maps/PnyYsZWbmYPxNrhP7" target="_blank">→ Google Maps</a>
+  </div>
+  <div class="info-card">
+    <h4>🌿 Il Mercatale Farmer's Market</h4>
+    <p>Seasonal and local products · Mon–Sat 9am–1pm & 4–8:30pm</p><br>
+    <a href="https://goo.gl/maps/JJ1mMSe1SnMd1PZm9" target="_blank">→ Google Maps</a>
+  </div>
+</div>
+
+<div class="section-title">Nearby Restaurants</div>
+<div class="info-grid">
+  <div class="info-card">
+    <h4>🍽️ Osteria di Montegonzi</h4>
+    <p>Nearest restaurant — in the village of Montegonzi, 1.5km from villa. Currently showing as temporarily closed online — confirming with Francesco.</p><br>
+    <a href="https://goo.gl/maps/MrbNZDeKyNiHTmtK9" target="_blank">→ Google Maps</a>
+  </div>
+  <div class="info-card">
+    <h4>🍽️ L'altroieri</h4>
+    <p>5 min drive · Open Wed–Sun from 7:30pm only · Very small — book ahead. Francesco offered to reserve for us.</p><br>
+    <a href="https://goo.gl/maps/3SejsjnJFCdU8Fv27" target="_blank">→ Google Maps</a>
+  </div>
+</div>
+
+<div class="section-title">Good to Know</div>
+<div class="info-grid">
+  <div class="info-card">
+    <h4>♻️ Recycling</h4>
+    <p>No door-to-door waste collection in this region. Public recycling bins are placed along nearby streets.</p><br>
+    <a href="https://www.dropbox.com/s/dp7pwe6rxpvwjaz/Recycling.jpg?dl=0" target="_blank">→ Recycling bin map</a>
+  </div>
+  <div class="info-card">
+    <h4>⚡ Energy & Air Con</h4>
+    <p>Air-conditioning and heating included. Energy usage up to €46/day is covered by your rental — beyond that is charged separately.</p>
+  </div>
+  <div class="info-card">
+    <h4>🐾 Pets</h4>
+    <p>Small pets permitted on request. Note the garden is very large and not fenced.</p>
+  </div>
+  <div class="info-card">
+    <h4>🔇 Quiet Hours</h4>
+    <p>Quiet hours begin at 10pm each night until sunrise. Max outdoor music volume 70 decibels during the day. No personal PA systems on premises.</p>
+  </div>
+  <div class="info-card">
+    <h4>🏊 Pool</h4>
+    <p>Salt-water pool, open through early November. Not heated, not fenced, 120cm (4ft) deep. No diving. No lifeguard. Do not use during rain or robot cleaning.</p>
+  </div>
+  <div class="info-card">
+    <h4>ℹ️ Local Info</h4>
+    <p>Full local area guide from Francesco:</p><br>
+    <a href="https://www.chianti-farm.com/useful-informations" target="_blank">→ chianti-farm.com/useful-informations</a>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+function showTab(tab) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById(tab).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
 <footer>Tuscany · La Selva Chianti · September 21–25 · 6 Friends · Final Version · Part 1 of 2</footer>
 </body>
 </html>
